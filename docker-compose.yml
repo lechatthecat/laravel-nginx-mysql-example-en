@@ -2,69 +2,75 @@ version: '3'
 services:
     # mysql 8.0
     mydb:
+        # image name
         image: mysql:8.0
-        # mot de passe et nom de utilisateur de mysql
+        # Password and user name of mysql
         environment:
             MYSQL_ROOT_PASSWORD: 'root'
             MYSQL_USER: 'root'
             MYSQL_PASS: 'root'
+        # Which port should be exposed
         ports:
             - 13306:3306
-        networks:
-            - app_net
         container_name: mydb
         volumes:
-            # Enregistrer les données dans "Volumes" de Docker
+            # Save the data in named "Volumes" of Docker
             - db-store:/var/lib/mysql
-            # Ou dans dossiers local
+            # Or use the local file
             # - ./docker_db_data/mysql:/var/lib/mysql
-            # Où enregistrer le journal.
+            # Where to save the mysql's log
             - ./logs:/var/log/mysql:z
-            # Où charger le my.cnf.
+            # Where to load the my.cnf
             - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:z
+        # Which network this container belongs to.
+        networks:
+            - app_net
     # le conteneur de Laravel
     laravel:
         build:
-            # Où se trouve le fichier "Dockerfile".
+            # Wnere to find the "Dockerfile".
             context: .
             dockerfile: docker/laravel/Dockerfile
         working_dir: /laravel
         volumes:
-            # Où se trouve le code source de laravel
+            # Where the source code should be saved.
             - ./laravel:/laravel
-            # Si on veut utiliser shell. 
+            # Where the bash file is (which is executed for the build)
             - ./docker/laravel/laravel_build.sh:/laravel_build.sh:z
-            # pour les fichiers des logs.
+            # Where to save laravel's log files
             - ./logs:/var/log/php
             # Où charger le php.ini.
             - ./docker/laravel/php.ini:/usr/local/etc/php/php.ini
-        # Atendre que le conteneur "mydb" soit prêt.
+        # Wait until mydb container is ready.
         depends_on:
             - mydb
         container_name: laravel
+        # Which network this container belongs to.
         networks:
             - app_net
     # nginx 1.17
     nginx:
-        # nom d'image
+        # image name
         image: nginx:1.17-alpine
-        # Atendre que le conteneur "laravel" soit prêt.
+        # Wait until "laravel" container is ready
         depends_on:
         - laravel
+        # Which port should be exposed
         ports:
         - 10080:80
         volumes:
-        # Où se trouve le code source de laravel
+        # Where to find the files to serve
         - ./laravel:/laravel
-        # pour les fichiers des logs.
+        # Where to save nginx logs.
         - ./logs:/var/log/nginx
-        # Où charger le default.conf.
+        # Where to load default.conf.
         - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
         container_name: nginx
+        # Which network this container belongs to.
         networks:
             - app_net
 networks:
-    # Les conteneurs d'un même réseau peuvent accéder les uns aux autres en utilisant son nom de conteneur (comme nom d'hôte).
+    # Containers in same network can access each other by using its container name as host name
     app_net:
         driver: "bridge"
 volumes:
