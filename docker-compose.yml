@@ -1,0 +1,71 @@
+version: '3'
+services:
+    # mysql 8.0
+    mydb:
+        image: mysql:8.0
+        # mot de passe et nom de utilisateur de mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: 'root'
+            MYSQL_USER: 'root'
+            MYSQL_PASS: 'root'
+        ports:
+            - 13306:3306
+        networks:
+            - app_net
+        container_name: mydb
+        volumes:
+            # Enregistrer les données dans "Volumes" de Docker
+            - db-store:/var/lib/mysql
+            # Ou dans dossiers local
+            # - ./docker_db_data/mysql:/var/lib/mysql
+            # Où enregistrer le journal.
+            - ./logs:/var/log/mysql:z
+            # Où charger le my.cnf.
+            - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:z
+    # le conteneur de Laravel
+    laravel:
+        build:
+            # Où se trouve le fichier "Dockerfile".
+            context: .
+            dockerfile: docker/laravel/Dockerfile
+        working_dir: /laravel
+        volumes:
+            # Où se trouve le code source de laravel
+            - ./laravel:/laravel
+            # Si on veut utiliser shell. 
+            - ./docker/laravel/laravel_build.sh:/laravel_build.sh:z
+            # pour les fichiers des logs.
+            - ./logs:/var/log/php
+            # Où charger le php.ini.
+            - ./docker/laravel/php.ini:/usr/local/etc/php/php.ini
+        # Atendre que le conteneur "mydb" soit prêt.
+        depends_on:
+            - mydb
+        container_name: laravel
+        networks:
+            - app_net
+    # nginx 1.17
+    nginx:
+        # nom d'image
+        image: nginx:1.17-alpine
+        # Atendre que le conteneur "laravel" soit prêt.
+        depends_on:
+        - laravel
+        ports:
+        - 10080:80
+        volumes:
+        # Où se trouve le code source de laravel
+        - ./laravel:/laravel
+        # pour les fichiers des logs.
+        - ./logs:/var/log/nginx
+        # Où charger le default.conf.
+        - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        container_name: nginx
+        networks:
+            - app_net
+networks:
+    # Les conteneurs d'un même réseau peuvent accéder les uns aux autres en utilisant son nom de conteneur (comme nom d'hôte).
+    app_net:
+        driver: "bridge"
+volumes:
+    db-store:
