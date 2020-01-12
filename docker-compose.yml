@@ -39,7 +39,7 @@ services:
             - ./docker/laravel/laravel_build.sh:/laravel_build.sh:z
             # Where to save laravel's log files
             - ./logs:/var/log/php
-            # Où charger le php.ini.
+            # Where to load php.ini.
             - ./docker/laravel/php.ini:/usr/local/etc/php/php.ini
         # Wait until mydb container is ready.
         depends_on:
