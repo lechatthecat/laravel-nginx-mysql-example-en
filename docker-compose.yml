@@ -25,7 +25,7 @@ services:
         # Which network this container belongs to.
         networks:
             - app_net
-    # le conteneur de Laravel
+    # The container of Laravel
     laravel:
         build:
             # Wnere to find the "Dockerfile".
