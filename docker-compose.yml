@@ -34,7 +34,7 @@ services:
         working_dir: /laravel
         volumes:
             # Where the source code should be saved.
-            - ./laravel:/laravel
+            - ./laravel:/laravel:z
             # Where the bash file is (which is executed for the build)
             - ./docker/laravel/laravel_build.sh:/laravel_build.sh:z
             # Where to save laravel's log files
