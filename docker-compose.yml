@@ -1,4 +1,11 @@
-version: '3'
+version: '3.5'
+
+x-services-volume:
+  &laravel-volume
+  type: bind
+  source: ./laravel
+  target: /laravel
+ 
 services:
     # mysql 8.0
     mydb:
@@ -34,7 +41,7 @@ services:
         working_dir: /laravel
         volumes:
             # Where the source code should be saved.
-            - ./laravel:/laravel:z
+            - <<: *laravel-volume
             # Where the bash file is (which is executed for the build)
             - ./docker/laravel/laravel_build.sh:/laravel_build.sh:z
             # Where to save laravel's log files
@@ -60,7 +67,7 @@ services:
         - 10080:80
         volumes:
         # Where to find the files to serve
-        - ./laravel:/laravel:z
+        - *laravel-volume
         # Where to save nginx logs.
         - ./logs:/var/log/nginx
         # Where to load default.conf.
