@@ -60,7 +60,7 @@ services:
         - 10080:80
         volumes:
         # Where to find the files to serve
-        - ./laravel:/laravel
+        - ./laravel:/laravel:z
         # Where to save nginx logs.
         - ./logs:/var/log/nginx
         # Where to load default.conf.
