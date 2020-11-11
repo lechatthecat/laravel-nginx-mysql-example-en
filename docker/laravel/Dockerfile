@@ -1,4 +1,4 @@
-FROM php:7.3-fpm-alpine
+FROM php:7.4-fpm-alpine
 LABEL maintainer "le chat the cat"
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
@@ -12,5 +12,4 @@ RUN set -eux && \
   cp /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
   apk del .build-php-dependencies && \
   docker-php-ext-install pdo_mysql && \
-  curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer && \
-  composer create-project --prefer-dist laravel/laravel sample_laravel
+  curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
