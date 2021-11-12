@@ -6,7 +6,7 @@ Please see [this file](https://github.com/lechatthecat/laravel-nginx-mysql-examp
 Run this program as follows:
 ```
 $ git clone https://github.com/lechatthecat/laravel-nginx-mysql-example-en.git
-$ cd laravel-nginx-mysql-example
+$ cd laravel-nginx-mysql-example-en
 $ docker-compose up -d --build
 $ docker-compose exec laravel ash
 # In the laravel container:
