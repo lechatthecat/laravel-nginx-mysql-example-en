@@ -14,8 +14,8 @@ services:
         # Password and user name of mysql
         environment:
             MYSQL_ROOT_PASSWORD: 'root'
-            MYSQL_USER: 'root'
-            MYSQL_PASS: 'root'
+            MYSQL_USER: 'user'
+            MYSQL_PASS: 'user'
         # Which port should be exposed
         ports:
             - 13306:3306
