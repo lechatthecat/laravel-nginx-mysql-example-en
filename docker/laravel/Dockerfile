@@ -7,7 +7,7 @@ ENV COMPOSER_HOME /composer
 # PHP Settings
 RUN set -eux && \
   apk add --update-cache --no-cache --virtual=.build-php-dependencies tzdata && \
-  apk add --update-cache --no-cache nodejs nodejs-npm && \
+  apk add --update-cache --no-cache nodejs npm && \
   # changer le fuseau horaire
   cp /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
   apk del .build-php-dependencies && \
