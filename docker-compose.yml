@@ -64,7 +64,7 @@ services:
         - laravel
         # Which port should be exposed
         ports:
-        - 10080:80
+        - 8080:80
         volumes:
         # Where to find the files to serve
         - *laravel-volume
