@@ -18,7 +18,7 @@ services:
             MYSQL_PASS: 'user'
         # Which port should be exposed
         ports:
-            - 13306:3306
+            - 3306:3306
         container_name: mydb
         volumes:
             # Save the data in named "Volumes" of Docker
