@@ -38,6 +38,7 @@ services:
             # Wnere to find the "Dockerfile".
             context: .
             dockerfile: docker/laravel/Dockerfile
+        # We will start from this directory when we enter this container
         working_dir: /laravel
         volumes:
             # Where the source code should be saved.
@@ -52,7 +53,12 @@ services:
         depends_on:
             - mydb
         container_name: laravel
-        # Which network this container belongs to.
+        # What is written below is a command that will be executed when the build is finished.
+        # If you use this "command", you have monitor the build log 
+        # and change the end of the script:  
+        # command: sh -x /laravel_build.sh
+        # But "command" is commented out for now.
+        # Which network this container belongs to:
         networks:
             - app_net
     # nginx 1.17
