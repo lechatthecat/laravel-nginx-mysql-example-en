@@ -1,4 +1,4 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.3-fpm-alpine
 LABEL maintainer "le chat the cat"
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
