@@ -32,7 +32,7 @@ $ docker logs --tail 50 --follow --timestamps laravel
 ```
 Bash
 ```
-$ docker-compose exec laravel /bin/bash
+$ docker compose exec laravel /bin/bash
 ```
 Or use /bin/sh
 
@@ -43,7 +43,7 @@ $ docker ps -a
 
 To stop docker containers:
 ```
-$ docker-compose down 
+$ docker compose down 
 ```
 
 **Don't do the following commands in prod**
@@ -53,7 +53,7 @@ $ docker system prune --volumes -f
 ```
 To delete everything of docker:
 ```
-$ docker-compose down -v --rmi all --remove-orphans
+$ docker compose down -v --rmi all --remove-orphans
 ```
 
 if you really want to delete all of docker data
