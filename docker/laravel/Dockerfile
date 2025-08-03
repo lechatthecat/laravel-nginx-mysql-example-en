@@ -9,7 +9,7 @@ RUN set -eux && \
   # the dependencies "build-php-dependencies" that are necessary only when building will be deleted after build 
   apk add --update-cache --no-cache --virtual=.build-php-dependencies tzdata && \
   # other dependencies will not be deleted but saved permanently
-  apk add --update-cache --no-cache nodejs npm git && \
+  apk add --update-cache --no-cache nodejs npm git unzip openssh-client  && \
   # change the localtime
   cp /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
   # Delete the build dependencies
