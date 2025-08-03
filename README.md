@@ -7,10 +7,20 @@ Run this program as follows:
 ```
 $ git clone https://github.com/lechatthecat/laravel-nginx-mysql-example-en.git
 $ cd laravel-nginx-mysql-example-en
-$ docker-compose up -d --build
-$ docker-compose exec laravel ash
+$ docker compose up -d --build
+$ docker compose exec laravel ash
 # In the laravel container:
-$ sh -x /laravel_build.sh
+composer self-update
+composer create-project --prefer-dist laravel/laravel sample_laravel
+cd /laravel/sample_laravel
+chown -R www-data:www-data .
+chmod 777 storage
+npm install
+npm run dev 
+composer update
+composer self-update
+composer install
+php artisan key:generate
 ```
 And then see http://localhost:8080
 You can see laravel is working on docker there.
