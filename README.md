@@ -8,8 +8,10 @@ Run this program as follows:
 $ git clone https://github.com/lechatthecat/laravel-nginx-mysql-example-en.git
 $ cd laravel-nginx-mysql-example-en
 $ docker compose up -d --build
+$ git config --global --add safe.directory '*'
 $ docker compose exec laravel ash
 # In the laravel container:
+git config --global --add safe.directory '*'
 composer self-update
 composer create-project --prefer-dist laravel/laravel sample_laravel
 cd /laravel/sample_laravel
